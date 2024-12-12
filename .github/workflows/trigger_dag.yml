@@ -1,0 +1,18 @@
+name: Trigger Airflow DAG
+
+on:
+  push:
+    branches:
+      - main  # Sadece main branch'e yapılan push işlemlerini tetikle
+
+jobs:
+  trigger_airflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Airflow DAG
+        run: |
+          curl -X POST "http://localhost:8080/api/v1/dags/spark_data_cleaning/dagRuns" \
+          --user "airflow:airflow" \
+          -H "Content-Type: application/json" \
+          -d '{"conf": {}}'
+
